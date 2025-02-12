@@ -1,0 +1,62 @@
+[General]
+version=2
+scaling_factor=1
+print_type=0
+print_quality=9
+save_image_quality=0
+print_flags=0
+color_mode=0
+camera="@ByteArray(<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n<Placemark>\n\t<LookAt>\n\t\t<longitude>-106.1477605937833</longitude>\n\t\t<latitude>38.88174779479402</latitude>\n\t\t<altitude>0</altitude>\n\t\t<heading>11.11339170817104</heading>\n\t\t<tilt>35.96746957354912</tilt>\n\t\t<range>161.8642549876694</range>\n\t\t<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>\n\t</LookAt>\n</Placemark>\n</kml>\n)"
+
+[Title%20and%20Description]
+Layout\size=@Size(169 84)
+Layout\visible=false
+Layout\anchor_pos=@Variant(\0\0\0\x1a\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0)
+Layout\anchor_halign=0
+Layout\anchor_valign=0
+title=turtle rocck
+description=
+
+[HTML%20Area]
+Layout\size=@Size(393 96)
+Layout\visible=false
+Layout\anchor_pos=@Variant(\0\0\0\x1a\0\0\0\0\0\0\0\0?\xe0\0\0\0\0\0\0)
+Layout\anchor_halign=0
+Layout\anchor_valign=1
+html="<!doctype html>\n<html>\n<head>\n<style type='text/css'>\nbody {\n    font: 100% 'Arial', 'Helvetica', sans-serif;\n    margin: 0;\n}\n\n#white_box {\n    background-color: rgba(255, 255, 255, 0.85);\n    bottom: 4pt;\n    color: rgba(0, 0, 0, 0.85);\n    left: 4pt;\n    outline: 1pt solid rgba(0, 0, 0, 0.2);\n    padding: 8pt 8pt;\n    position: absolute;\n    right: 4pt;\n    top: 4pt;\n}\n</style>\n</head>\n<body>\n<div id='white_box'>\n<p style='font-size: 11pt; white-space: nowrap;'>\nEdit this HTML to add a logo image or custom map title.&nbsp;&nbsp;&nbsp;&nbsp;\n<br />\nUse an <tt>iframe</tt> tag to display an external page.&nbsp;&nbsp;&nbsp;&nbsp;\n</p>\n<div style='height: 12pt; font-size: 0;'>&nbsp;</div>\n</div>\n</body>\n</html>\n"
+
+[Legend]
+Layout\size=@Size(130 82)
+Layout\visible=false
+Layout\anchor_pos=@Variant(\0\0\0\x1a?\xf0\0\0\0\0\0\0\0\0\0\0\0\0\0\0)
+Layout\anchor_halign=2
+Layout\anchor_valign=0
+Features\1\checked=true
+Features\1\name=Feature 1
+Features\1\pixmap="@Variant(\0\0\0\x41\0\0\0\x1\x89PNG\r\n\x1a\n\0\0\0\rIHDR\0\0\0\xe\0\0\0\x10\b\x6\0\0\0&\x94N:\0\0\0\tpHYs\0\0\xe\xc4\0\0\xe\xc4\x1\x95+\xe\x1b\0\0\x2\rIDAT(\x91\x95\x91\xddkRq\x18\xc7?\x1eu\xa8\x65`[7\x82\x98H\nI\xb0j\xec\x66\x9b\x37\xb2\xa4\x46\x89\x45\x31\x16\x44\xb0\x46\x43v\xb1\xc4\x9b^(\xac\x7f\xa0\x9bj\xb4\xae\xc2\xab\xa0\xab|\xb9\n\xa5Y\x10\xc5\xb0Q\x84\x6\xd3\xc3!h\xab\x35\xc8\x8e\xee\xb0\x9d\xb3.\xdcNc(\xd1\x17~\xf0\xf0\xf0\xfd\xfc\x9e\x37\xe8,a\xeb\xfd[\xf9|~o\xb3\xd9\xbc\xa1\xaa\xea\x82\xa6i\x1b\x9a\xa6m\xa8\xaa\xba\xa0(\xca\xf5\x62\xb1h\xdf\xe9\x35l\a\x92$\x1dr:\x9d/r_?\xfag+EJ+\x12\0\xbd\xdd.\xae\xfa\x83\x84\x9d\x87\xcb\xb5Z\xed\xb4\xd7\xeb\xfd\xa2\x83\xd9lv_8\x1c~w\xef\x43\xc6\x37S~\x5\x80\xd1\xd0\xeaR\xdd\xd4\0\x98\xf4\a\xb9y\xe4\x64%\x9b\xcd\xf6\x45\"\x91\xba\x1`uu\xf5\xf6\x9b\xba\x94\x1c\x7f\xfdTo\xe5\xc2\xc1>\0\x9e\xd5\xde\xeb\xb9'\x3\x97\x18\xb0\xbb\xee\x38\x1c\x8e\xbb\x2`\xb6\xd9l\xa3\x8f\xcbs\xba\xc1h\x10\x98\xe\x84\x98\xe\x84\xf4\xca\0\xb3\x95\x39\xacV\xeb(`\x16\0\x8b\xd9l\xf6\x95~J\xba\xe1\x9c\xfbX\xdb\xb8\xb4\"\xd1\xd5\xd5\xe5\x3,&\xc0\xb8s[\xdb\xd5\xee\x7fz\t\xc0t \xc4sq\xbe\x35\xab\xe1\xafM\0TY\x96\x17{\xbb]\0\x64\x86\xa7\xf0\xd8{\x18\xf3\xf6\x33\xe6\xed\xc7\x63\xef!3<\xd5\xda\xf0~\x17\xb2,/\x2\xaa\tX\x13\x45\x31=\xe1\x1b\xba\xf6\xf6{\x95\x64)M'M\xfa\x83T\xab\xd5\x34\xb0\x66\x2\xd6\x63\xb1\xd8\xa3\\.wv\xd2\x1fto\x9f\xa3\x1d\x34\xe4\xf0\x88\x91\xcb\x91\x19`\xdd\b \x8a\x62]Q\x94\xcf\xb7\xce\x8f\x9f\xe8=\xe0\xde\xf3\xad\xf9\x8b\x1f\xcaoL\x82@_\x8f\x9b\xe4\xd1\x33\\t\x1d_N&\x93WR\xa9\xd4<\xa0\xed\xfc\xd4\x92H$FdY^\xde\xdc%Y\x96\x97\xe2\xf1\xf8)\xc0\xd2i\fK\"\x91\x18i4\x1aK\xff\x3\xe9p4\x1a\x1d,\x14\n\xf\n\x85\xc2\xc3h4:\xd8\xe\x32\xb4\x1\xa1u[\xdbV\xdc\0\xd4\xdd\x86?\xc3K\xdf\x5\xc3Ks\xae\0\0\0\0IEND\xae\x42`\x82)"
+Features\size=1
+
+[Scale]
+Layout\size=@Size(360 20)
+Layout\visible=false
+Layout\anchor_pos=@Variant(\0\0\0\x1a?\xf0\0\0\0\0\0\0?\xf0\0\0\0\0\0\0)
+Layout\anchor_halign=2
+Layout\anchor_valign=2
+
+[Compass]
+Layout\size=@Size(72 72)
+Layout\visible=false
+Layout\anchor_pos=@Variant(\0\0\0\x1a?\xf0\0\0\0\0\0\0?\xef\x37\x37@\0\0\0)
+Layout\anchor_halign=2
+Layout\anchor_valign=2
+
+[Copyright]
+Layout\size=@Size(171 40)
+Layout\visible=true
+Layout\anchor_pos=@Variant(\0\0\0\x1a\0\0\0\0\0\0\0\0?\xf0\0\0\0\0\0\0)
+Layout\anchor_halign=0
+Layout\anchor_valign=2
+
+[Printer]
+orientation=1
+paper_size=2
