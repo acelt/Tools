@@ -1,0 +1,78 @@
+// Define the time range for analysis
+var startDate = '1986-01-01';
+var endDate = '2018-12-31';
+
+// Load the Rangeland Analysis Platform (RAP) dataset
+var rap = ee.ImageCollection("projects/rap-data-365417/assets/vegetation-cover-v3")
+  .filterDate(startDate, endDate);
+
+// Clip the dataset to the specified AOI
+var rapClipped = rap.filterBounds(aoi);
+
+// Function to calculate the median for the specified time period and AOI
+var calculateMedian = function(image) {
+  // Reduce the image collection to get the median value
+  var medianImage = rapClipped.median();
+  
+  // Optionally, you can clip the result to the AOI
+  medianImage = medianImage.clip(aoi);
+  
+  return medianImage;
+};
+
+// Apply the function to get the result
+var medianResult2016 = calculateMedian();
+
+// Display the result on the map
+Map.centerObject(aoi, 10);
+Map.addLayer(medianResult2016, {bands: ['AFG',], min: 0, max: 100, palette: 'green,red'}, 'Median RAP AFG 2023');
+Map.addLayer(medianResult2016, {bands: ['PFG',], min: 0, max: 100, palette: 'red,green'}, 'Median RAP PFG 2023');
+Map.addLayer(medianResult2016, {bands: ['BGR',], min: 0, max: 100, palette: 'green,red'}, 'Median RAP BGR 2023');
+
+// Define the time range for analysis
+var startDate = '2019-01-01';
+var endDate = '2023-12-31';
+
+// Load the Rangeland Analysis Platform (RAP) dataset
+var rap = ee.ImageCollection("projects/rap-data-365417/assets/vegetation-cover-v3")
+  .filterDate(startDate, endDate);
+
+// Clip the dataset to the specified AOI
+var rapClipped = rap.filterBounds(aoi);
+
+// Function to calculate the median for the specified time period and AOI
+var calculateMedian = function(image) {
+  // Reduce the image collection to get the median value
+  var medianImage = rapClipped.median();
+  
+  // Optionally, you can clip the result to the AOI
+  medianImage = medianImage.clip(aoi);
+  
+  return medianImage;
+};
+
+// Apply the function to get the result
+var medianResult2022 = calculateMedian();
+
+// Display the result on the map
+Map.centerObject(aoi, 10);
+Map.addLayer(medianResult2022, {bands: ['AFG',], min: 0, max: 100, palette: 'green,red'}, 'Median RAP AFG 2022');
+Map.addLayer(medianResult2022, {bands: ['PFG',], min: 0, max: 100, palette: 'red,green'}, 'Median RAP PFG 2022');
+Map.addLayer(medianResult2022, {bands: ['BGR',], min: 0, max: 100, palette: 'green,red'}, 'Median RAP BGR 2022');
+
+var result = medianResult2022.subtract(medianResult2016);
+
+// Display the result on the map
+Map.centerObject(aoi, 10);
+Map.addLayer(result, {bands: ['AFG',], min: 0, max: 100, palette: 'green,red'}, 'Difference RAP AFG');
+Map.addLayer(result, {bands: ['PFG',], min: 0, max: 100, palette: 'red,green'}, 'Difference RAP PFG');
+Map.addLayer(result, {bands: ['BGR',], min: 0, max: 100, palette: 'green,red'}, 'Difference RAP BGR');
+
+Export.image.toDrive({
+    image: result,
+    description: 'RAP_difference',
+    folder: 'RAP_exports',
+    region: aoi,
+    scale: 30,
+    maxPixels: 1e10
+  });

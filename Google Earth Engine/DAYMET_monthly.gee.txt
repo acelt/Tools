@@ -1,0 +1,92 @@
+// Load DayMet dataset
+var daymet = ee.ImageCollection("NASA/ORNL/DAYMET_V4");
+
+// Define the region of interest (ROI)
+var roi = ee.FeatureCollection("projects/blm-gee-alex-laurence-traynor/assets/MDT_ru");
+
+// Filter DayMet data for the specified region and time range
+var daymetFiltered = daymet
+  .filterBounds(geometry)
+  .filterDate("2019-01-01", "2023-12-31");
+
+// Function to calculate monthly mean precipitation
+var monthlyPrecipitation = function(month) {
+  var filtered = daymetFiltered.filter(ee.Filter.calendarRange(month, month, 'month'));
+  return filtered.select('prcp').sum()
+    .set('month', month)
+    .set('system:time_start', ee.Date.fromYMD(2000, month, 1));
+};
+
+// Create a collection of monthly precipitation images
+var monthlyPrecipitationCollection = ee.ImageCollection.fromImages(
+  ee.List.sequence(1, 12).map(monthlyPrecipitation)
+);
+
+// Function to clip each image in the collection to the polygon
+var cliptopoly = function(image) {
+  return image.clip(roi);
+};
+
+// Masking these images using the tortoise ACECs
+var monthlyPrecipitationCollection_clip = monthlyPrecipitationCollection.map(cliptopoly);
+
+// Function to calculate monthly maximum temperature
+var monthlyMaxTemperature = function(month) {
+  var filtered = daymetFiltered.filter(ee.Filter.calendarRange(month, month, 'month'));
+  return filtered.select('tmax').max()
+    .set('month', month)
+    .set('system:time_start', ee.Date.fromYMD(2000, month, 1));
+};
+
+// Create a collection of monthly maximum temperature images
+var monthlyMaxTemperatureCollection = ee.ImageCollection.fromImages(
+  ee.List.sequence(1, 12).map(monthlyMaxTemperature)
+);
+
+// Masking these images using the tortoise ACECs
+var monthlyMaxTemperatureCollection_clip = monthlyMaxTemperatureCollection.map(cliptopoly);
+
+// Print the result
+print("Monthly Precipitation Collection:", monthlyPrecipitationCollection_clip);
+print("Monthly Max Temperature Collection:", monthlyMaxTemperatureCollection_clip);
+
+// Visualize the first image in each collection
+Map.addLayer(monthlyPrecipitationCollection_clip.first(), {min: 0, max: 1.5, palette: ['blue', 'green', 'yellow', 'red']}, 'Monthly Precipitation');
+Map.addLayer(monthlyMaxTemperatureCollection_clip.first(), {min: 10, max: 40, palette: ['purple', 'blue', 'green', 'yellow', 'red']}, 'Monthly Max Temp');
+
+// Export to Google Drive
+
+var tempList = monthlyMaxTemperatureCollection_clip.toList(monthlyMaxTemperatureCollection_clip.size());
+
+var precipList = monthlyPrecipitationCollection_clip.toList(monthlyPrecipitationCollection_clip.size());
+
+// Need a loop to export all the images
+for (var i =0;i<12;i++){
+  var image = ee.Image(tempList.get(i))
+  var filename = 'monthly_tmax_'+(i+1);
+  
+  // Export to Google Drive
+  Export.image.toDrive({
+    image: image,
+    description: filename,
+    folder: 'DayMet_climate',
+    scale: 1000,
+    region: acecs,
+    maxPixels: 1e10
+});
+  
+}
+
+for (var i = 0; i<12;i++){
+  var image = ee.Image(precipList.get(i))
+  var filename = 'monthly_precip_'+(i+1);
+  
+  Export.image.toDrive({
+    image: image,
+    description: filename,
+    folder: 'DayMet_climate',
+    scale: 1000,
+    region: acecs,
+    maxPixels: 1e10
+});
+}

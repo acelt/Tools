@@ -1,0 +1,75 @@
+// Purpose of script: This script exports RAP Annual Herbaceous Biomass raster data (TIF file format) from Google Earth Engine to your personal Google Drive
+// Supporting article: https://rangelands.app/support/63-export-annual-biomass-rasters
+
+
+// ------------------------------------------------------------
+// -------------- Variables for User to change ----------------
+// ------------------------------------------------------------
+
+// ---------- Define the bounding box ------------------------------
+//  If bounding box was drawn on map below, no additional steps are needed.
+//
+//  If a shapefile was loaded - rename shapefile to 'geometry'.  To do this 
+//  click the default shapefile name (likely 'table') in the Imports panel above,
+//  and rename it 'geometry'
+
+// ---------- Define the years that you want to export --------------
+// ---------- End year is inclusive in this case  ------------------
+var yearStart = 2011
+var yearEnd = 2022
+
+// -------------- Define the plant functional types (PFTs) that you want to export --------------
+// PFTs are 'afgAGB' (annual forb and grass aboveground biomass), 
+// 'pfgAGB' (perennial forb and grass aboveground biomass), 
+// and 'herbaceousAGB' (total herbaceous aboveground biomass)
+var PFTs = ee.List(['afgAGB', 'pfgAGB', 'herbaceousAGB'])
+
+var roi = 
+// -------------- Import and convert annual net primary productivity to aboveground herbaceous biomass production --------------
+var npp = ee.ImageCollection("projects/rap-data-365417/assets/npp-partitioned-v3")
+  .select(['afgNPP', 'pfgNPP']);
+var mat = ee.ImageCollection("projects/rap-data-365417/assets/gridmet-MAT");
+
+// biomass conversion function
+// input: two band image (afgNPP, pfgNPP) from projects/rangeland-analysis-platform/npp-partitioned-v2
+// output: three band image, aboveground biomass (afgAGB, pfgAGB, herbaceousAGB)
+var biomassFunction = function(image) {
+    
+    var year = ee.Date(image.get('system:time_start')).format('YYYY');
+    var matYear = mat.filterDate(year).first();
+    var fANPP = (matYear.multiply(0.0129)).add(0.171).rename('fANPP'); // fraction of NPP to allocate aboveground
+    
+    var agb = image.multiply(0.0001) // NPP scalar 
+                .multiply(2.20462) // KgC to lbsC
+                .multiply(4046.86) // m2 to acres
+                .multiply(fANPP)  // fraction of NPP aboveground
+                .multiply(2.1276) // C to biomass
+                .rename(['afgAGB', 'pfgAGB'])
+                .copyProperties(image, ['system:time_start'])
+                .set('year', year);
+
+    var herbaceous = ee.Image(agb).reduce(ee.Reducer.sum()).rename(['herbaceousAGB']);
+    
+    agb = ee.Image(agb).addBands(herbaceous);
+
+    return agb;
+};
+
+var biomass = npp.map(biomassFunction);
+
+// ------------- Select the PFTs for export as defined by User  --------------
+var biomass_toExport = biomass.select(PFTs)
+
+// ------------- Export images one-by-one for each year -------------
+// Loop over year objects to export images year-by-year
+for (var yr = yearStart; yr <= yearEnd; yr++){
+  // Export the image, specifying scale and region.
+  Export.image.toDrive({
+    image: biomass_toExport.filterDate(yr.toString(), (yr+1).toString()).first().toInt16(),
+    description: 'RAP_Biomass_' + yr,
+    folder: 'RAP_exports',
+    scale: 30,
+    region: geometry.bounds(),
+    maxPixels: 1e10
+  });
+}

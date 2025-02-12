@@ -1,0 +1,37 @@
+
+var yearStart = 2011
+var yearEnd = 2022
+
+var PFTs = ee.List(['prcp', 'tmax',])
+
+var daymet_toExport = imageCollection.select(PFTs)
+
+// ------------- Export images one-by-one for each year -------------
+
+// Loop over year objects to export images year-by-year
+for (var yr = yearStart; yr <= yearEnd; yr++){
+  var startDate = ee.Date.fromYMD(yr, 4, 1)
+  var endDate = startDate.advance(6, 'months')
+  // Export the image, specifying scale and region.
+  var filtered = daymet_toExport
+    .filter(ee.Filter.date(startDate, endDate))
+  var mean_filtered = filtered.reduce(ee.Reducer.mean())
+  
+  var yr_string = ee.Number(yr).format('%04d')
+  var layer_name = ee.String('DAYMET_').cat(yr_string).getInfo()
+  print(layer_name)
+  
+  Map.addLayer(mean_filtered, {min: 0, max: 40}, layer_name)
+  
+  Export.image.toDrive({
+    image: mean_filtered,
+    description: 'DayMet_climate_' + yr,
+    folder: 'DayMet_climate',
+    scale: 1000,
+    region: habitat_poly.bounds(),
+    maxPixels: 1e10
+  });
+}
+
+
+
